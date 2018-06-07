@@ -1,36 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Response } from '@angular/http';
 
-import { DataStorageService } from '../shared/data-storage.service'
+import { MaterialModule } from '../shared/material.module';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.css']
+  styleUrls: ['./posts.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PostsComponent implements OnInit {
-  posts: any;
-
-  constructor(private dataStorageService: DataStorageService) { 
-    this.dataStorageService.getPosts()
-      .subscribe(
-        response => this.posts = response,
-        // response => console.log(JSON.parse(response)),
-        error => console.log(error)
-      );
+  fullPosts: any[];
+  posts: any[];
+  constructor(
+    private dataStorageService: DataStorageService
+  ) {
   }
 
   ngOnInit() {
+    this.getPosts();
   }
 
-  addPost(post) {
+  addPost(title: HTMLInputElement, content: HTMLInputElement) {
     const singlePost = {
-      "content": post,
-      "comments": [],
-      "id": this._generateID()
+      'title': title.value,
+      'description': `${content.value.substring(1, 40)} ...`,
+      'content': content.value,
+      'comments': [],
+      'id': this._generateID()
     };
     this.dataStorageService.storePosts(singlePost)
       .subscribe(
-        response => console.log(response),
+        error => console.log(error)
+      );
+    title.value = '';
+    content.value = '';
+    // not work this.getPosts();
+  }
+
+  getPosts() {
+    this.posts = [];
+    this.fullPosts = [];
+    this.dataStorageService.getPosts()
+      .subscribe(
+        (posts) => {
+          for (let singlePost in posts) {
+            this.posts.push({
+              ...posts[singlePost],
+              key: singlePost
+            });
+          };
+        },
         error => console.log(error)
       );
   }

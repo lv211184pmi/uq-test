@@ -7,12 +7,12 @@ import 'firebase/database';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  
+export class AppComponent implements OnInit {
+
   ngOnInit() {
     firebase.initializeApp({
-      apiKey: "AIzaSyBfGPUIVIVDIq5DgDXOVljNyYQtDDfLVug",
-      authDomain: "upquodeposts.firebaseapp.com"
-    })
+      apiKey: 'AIzaSyBfGPUIVIVDIq5DgDXOVljNyYQtDDfLVug',
+      authDomain: 'upquodeposts.firebaseapp.com'
+    });
   }
 }

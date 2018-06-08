@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -13,7 +14,6 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { AuthService } from './auth/auth.service';
 import { PostsComponent } from './posts/posts.component';
 import { PostsService } from './posts/posts.service';
-import { DataStorageService } from './shared/data-storage.service';
 import { MaterialModule } from './shared/material.module';
 import { SinglePostComponent } from './posts/single-post/single-post.component';
 import { environment } from '../environments/environment';
@@ -35,12 +35,12 @@ import { environment } from '../environments/environment';
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFirestoreModule,
     routing
   ],
   providers: [
     AuthService,
     PostsService,
-    DataStorageService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -6,8 +6,10 @@ import { ActivatedRoute, Params } from '@angular/router';
   templateUrl: './single-post.component.html',
   styleUrls: ['./single-post.component.css']
 })
-export class SinglePostComponent implements OnInit {
+export class SinglePostComponent implements OnInit, OnDestroy {
   id: number;
+
+  singlePost: any;
 
   constructor(
     private route: ActivatedRoute
@@ -20,5 +22,12 @@ export class SinglePostComponent implements OnInit {
           this.id = +params['id'];
         }
       );
+
+    this.singlePost = JSON.parse(localStorage.getItem('singlePost'));
+  }
+
+  ngOnDestroy() {
+    // clean LC
+    localStorage.removeItem('singlePost');
   }
 }

@@ -8,8 +8,15 @@
       <mat-form-field>
         <textarea matInput placeholder="Whrite your post here.." #postContent></textarea>
       </mat-form-field>
-       <button mat-button color="primary" (click)="addPost(postTitle, postContent)">Add Post</button>
-       <button mat-button color="accent" (click)="getPosts()">Get Post</button>
+      <div *ngIf="editMode else addBlock">
+        <button mat-button color="primary" (click)="updatePost(postTitle, postContent)">Save</button>
+        <button mat-button color="accent" (click)="cancelUpdatePost(postTitle, postContent)">Cancel</button>
+      </div>
+      <ng-template #addBlock>
+        <div>
+          <button mat-button color="primary" (click)="addPost(postTitle, postContent)">Add Post</button>
+        </div>
+      </ng-template>
     </mat-card-subtitle>
   </mat-card>
 </div>
@@ -24,7 +31,13 @@
 </mat-card> -->
 
 <ul>
-  <li *ngFor='let post of postsList$ | async' (click)="currentPost(post)" [routerLink]="[post['post-test']]">{{post.description}}</li>
+  <li *ngFor='let post of postsList$ | async'>
+    <p>{{post.title}}</p>
+    <p>{{post.description}}</p>
+    <button mat-button color="primary" (click)="setCurrentPost(post)" [routerLink]="[post['id']]">See more...</button>
+    <button mat-button color="danger">Delete</button>
+    <button mat-button color="primary" (click)="editPost(post, postTitle, postContent)">Edit</button>
+  </li>
 </ul>
 <!-- <ul>
   <li *ngFor='let post of posts' (click)="currentPost(post)" [routerLink]="[post['post-test']]">{{post['post-test']}}</li>

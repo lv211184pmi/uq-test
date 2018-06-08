@@ -4,4 +4,5 @@ export class Post {
   content: string;
   comments: string[];
   id: string;
+  key?: string;
 }

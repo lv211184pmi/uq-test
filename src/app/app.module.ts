@@ -34,6 +34,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     routing

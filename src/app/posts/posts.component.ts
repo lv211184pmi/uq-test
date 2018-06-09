@@ -92,6 +92,12 @@ export class PostsComponent implements OnInit {
     return text.substring(0, 20) + ' ...';
   }
 
+  deletePost(post) {
+    const path = `posts/${post.key}`;
+    this.singlePostDoc = this.db.doc(path);
+    this.singlePostDoc.delete();
+  }
+
   editPost(post, title, content) {
     title.value = post.title;
     content.value = post.content;

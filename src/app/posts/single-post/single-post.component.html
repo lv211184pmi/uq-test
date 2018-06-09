@@ -1,3 +1,18 @@
 <p>
-  {{singlePost['description']}}
+  {{singlePost['title']}}
 </p>
+<p>
+    {{singlePost['content']}}
+</p>
+
+<div>
+  <mat-form-field>
+    <textarea matInput placeholder="Whrite your post here.." #comment></textarea>
+  </mat-form-field>
+  <button mat-button color="primary" (click)="addComment(comment)">Save</button> 
+</div>
+<div>
+  <ul>
+    <li></li>
+  </ul>
+</div>

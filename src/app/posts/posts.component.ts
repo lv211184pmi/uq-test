@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 // import { Response } from '@angular/http';
-import { Post } from '../shared/post.model';
+import { Post } from '../shared/models/post.model';
 import { MaterialModule } from '../shared/material.module';
 // import { PostsService } from './posts.service';
 
@@ -58,12 +58,12 @@ export class PostsComponent implements OnInit {
   }
 
   addPost(postTitle, postContent) {
-    let postDescription = this._getDescription(postContent.value);
-    this.postsCollection.add({ 
-      title: postTitle.value, 
-      description: postDescription, 
-      content: postContent.value, 
-      comments: [], 
+    const postDescription = this._getDescription(postContent.value);
+    this.postsCollection.add({
+      title: postTitle.value,
+      description: postDescription,
+      content: postContent.value,
+      comments: [],
       id: this._getId()
     });
     postTitle.value = '';
@@ -76,19 +76,20 @@ export class PostsComponent implements OnInit {
 
   currentPost(post) {
     this.postsCollection = this.db.collection('posts', ref => {
-      return ref.where('id', '==', post.id)});
+      return ref.where('id', '==', post.id);
+    });
   }
 
-  setCurrentPost(post){
+  setCurrentPost(post) {
     localStorage.setItem('singlePost', JSON.stringify(post));
   }
 
   private _getId() {
-    let rndID = Math.random().toString(36).substr(2, 9);
+    const rndID = Math.random().toString(36).substr(2, 9);
     return rndID;
   }
 
-  private _getDescription(text){
+  private _getDescription(text) {
     return text.substring(0, 20) + ' ...';
   }
 
@@ -107,7 +108,7 @@ export class PostsComponent implements OnInit {
 
   updatePost(postTitle, postContent) {
     const path = 'posts/' + JSON.parse(localStorage.getItem('hash'));
-    let postDescription = this._getDescription(postContent.value);
+    const postDescription = this._getDescription(postContent.value);
     this.singlePostDoc = this.db.doc(path);
     this.singlePostDoc.update({title: postTitle.value, content: postContent.value, description: postDescription});
     this.editMode = false;
@@ -120,5 +121,4 @@ export class PostsComponent implements OnInit {
     postTitle.value = '';
     postContent.value = '';
   }
-
 }

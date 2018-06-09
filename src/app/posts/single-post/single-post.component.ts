@@ -7,7 +7,7 @@ import {
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
 
-import { Post } from '../../shared/post.model';
+import { Post } from '../../shared/models/post.model';
 
 @Component({
   selector: 'app-single-post',

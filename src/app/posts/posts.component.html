@@ -1,3 +1,11 @@
+<mat-toolbar>
+  <div class="toolbar-content">
+    <h4>
+      {{currentUser.firstName}}
+    </h4>
+    <a [routerLink]="['/login']" class="btn btn-link">Logout</a>
+  </div>
+</mat-toolbar>
 <div class="container">
   <mat-card>
     <mat-card-title>Add new post</mat-card-title>
@@ -8,52 +16,32 @@
       <mat-form-field>
         <textarea matInput placeholder="Whrite your post here.." #postContent></textarea>
       </mat-form-field>
-      <div *ngIf="editMode else addBlock">
+      <div *ngIf="editMode else addBlock" class="actions">
         <button mat-button color="primary" (click)="updatePost(postTitle, postContent)">Save</button>
         <button mat-button color="accent" (click)="cancelUpdatePost(postTitle, postContent)">Cancel</button>
       </div>
       <ng-template #addBlock>
-        <div>
+        <div class="actions">
           <button mat-button color="primary" (click)="addPost(postTitle, postContent)">Add Post</button>
         </div>
       </ng-template>
     </mat-card-subtitle>
   </mat-card>
-</div>
-
-
-<!-- <mat-card *ngFor="let post of posts" role="listitem" style="margin-top: 10px;">
+  <mat-card *ngFor="let post of postsList$ | async" role="listitem" style="margin-top: 10px;">
     <mat-card-title>{{post.title}}</mat-card-title>
-    <mat-card-content>{{post.description}}</mat-card-content>
+    <mat-card-content>
+      <p>
+          {{post.description}}
+      </p>
+      <div class="post-credentials">
+        <p>author: {{post.author}}</p>
+        <p>date: {{post.postDate | date}}</p>
+      </div>
+    </mat-card-content>
     <mat-card-actions>
-        <button mat-button color="primary">See more...</button>
+      <button mat-button color="primary" (click)="setCurrentPost(post)" [routerLink]="[post['id']]">See more...</button>
+      <button mat-button color="danger" (click)="deletePost(post)">Delete</button>
+      <button mat-button color="primary" (click)="editPost(post, postTitle, postContent)">Edit</button>
     </mat-card-actions>
-</mat-card> -->
-
-<ul>
-  <li *ngFor='let post of postsList$ | async'>
-    <p>{{post.title}}</p>
-    <p>{{post.description}}</p>
-    <button mat-button color="primary" (click)="setCurrentPost(post)" [routerLink]="[post['id']]">See more...</button>
-    <button mat-button color="danger" (click)="deletePost(post)">Delete</button>
-    <button mat-button color="primary" (click)="editPost(post, postTitle, postContent)">Edit</button>
-  </li>
-</ul>
-<!-- <ul>
-  <li *ngFor='let post of posts' (click)="currentPost(post)" [routerLink]="[post['post-test']]">{{post['post-test']}}</li>
-</ul> -->
-
-
-<!--
-<mat-accordion *ngFor="let post of posts" role="listitem">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{post.title}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p>{{post.content}}</p>
-    <button mat-button color="primary">Edit Post</button>
-    <button mat-button color="accent">Delete Post</button>
-  </mat-expansion-panel>
-</mat-accordion> -->
+  </mat-card>
+</div>

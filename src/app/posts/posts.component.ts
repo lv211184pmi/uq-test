@@ -1,9 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-// import { Response } from '@angular/http';
-import { Post } from '../shared/models/post.model';
-import { MaterialModule } from '../shared/material.module';
-// import { PostsService } from './posts.service';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -13,7 +8,9 @@ import {
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
 
-
+import { Post } from '../shared/models/post.model';
+import { MaterialModule } from '../shared/material.module';
+// import { PostsService } from './posts.service';
 
 @Component({
   selector: 'app-posts',
@@ -22,6 +19,8 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class PostsComponent implements OnInit {
+  currentUser: any;
+
   editMode: boolean;
 
   postsCollection: AngularFirestoreCollection<Post>;
@@ -29,12 +28,9 @@ export class PostsComponent implements OnInit {
   singlePostDoc: AngularFirestoreDocument<Post>;
   singlePost: Observable<Post>;
 
-  // posts: Post[];
-
-  constructor(
-    // private postsService: PostsService,
-    private db: AngularFirestore
-  ) { }
+  constructor(private db: AngularFirestore) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
     this.getPosts();
@@ -64,14 +60,12 @@ export class PostsComponent implements OnInit {
       description: postDescription,
       content: postContent.value,
       comments: [],
-      id: this._getId()
+      id: this._getId(),
+      author: this.currentUser.firstName,
+      postDate: new Date()
     });
     postTitle.value = '';
     postContent.value = '';
-  }
-
-  private _generateID() {
-    return Math.round(Math.random() * 10000);
   }
 
   currentPost(post) {
@@ -82,15 +76,6 @@ export class PostsComponent implements OnInit {
 
   setCurrentPost(post) {
     localStorage.setItem('singlePost', JSON.stringify(post));
-  }
-
-  private _getId() {
-    const rndID = Math.random().toString(36).substr(2, 9);
-    return rndID;
-  }
-
-  private _getDescription(text) {
-    return text.substring(0, 20) + ' ...';
   }
 
   deletePost(post) {
@@ -110,7 +95,7 @@ export class PostsComponent implements OnInit {
     const path = 'posts/' + JSON.parse(localStorage.getItem('hash'));
     const postDescription = this._getDescription(postContent.value);
     this.singlePostDoc = this.db.doc(path);
-    this.singlePostDoc.update({title: postTitle.value, content: postContent.value, description: postDescription});
+    this.singlePostDoc.update({ title: postTitle.value, content: postContent.value, description: postDescription });
     this.editMode = false;
     postTitle.value = '';
     postContent.value = '';
@@ -120,5 +105,18 @@ export class PostsComponent implements OnInit {
     this.editMode = false;
     postTitle.value = '';
     postContent.value = '';
+  }
+
+  private _generateID() {
+    return Math.round(Math.random() * 10000);
+  }
+
+  private _getId() {
+    const rndID = Math.random().toString(36).substr(2, 9);
+    return rndID;
+  }
+
+  private _getDescription(text) {
+    return text.substring(0, 20) + ' ...';
   }
 }

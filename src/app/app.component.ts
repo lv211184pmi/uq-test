@@ -8,6 +8,9 @@ import 'firebase/database';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  ngOnInit() {}
+  currentUser: any;
+  
+  ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 }

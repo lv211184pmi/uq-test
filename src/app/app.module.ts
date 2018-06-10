@@ -17,6 +17,11 @@ import { SinglePostComponent } from './posts/single-post/single-post.component';
 import { environment } from '../environments/environment';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserService } from './shared/services/user.service';
+import { LoginComponent } from './login/login.component';
+import { AuthenticationService } from './shared/services/authentication.servise';
+import { AuthGuard } from './shared/auth.guard';
+import { BackendAPI } from './backend/api';
+import { JwtInterceptor } from './backend/jwt';
 
 
 @NgModule({
@@ -24,7 +29,8 @@ import { UserService } from './shared/services/user.service';
     AppComponent,
     PostsComponent,
     SinglePostComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,15 @@ import { UserService } from './shared/services/user.service';
   ],
   providers: [
     PostsService,
-    UserService
+    UserService,
+    AuthGuard,
+    AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    BackendAPI
   ],
   bootstrap: [AppComponent]
 })

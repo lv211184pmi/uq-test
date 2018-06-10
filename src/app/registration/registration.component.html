@@ -1,19 +1,24 @@
-<div class="container">
+<!-- <div class="container">
   <mat-card>
     <mat-card-title>Register new user</mat-card-title>
     <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
       <mat-form-field>
-        <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" />
-
-        <!-- <mat-form-field>
-          <input matInput placeholder="Enter your email" [formControl]="email" required>
-          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-        </mat-form-field> -->
-
-
-
+        <input  matInput placeholder="Enter your name" [formControl]="userName" required>
+        <mat-error *ngIf="f.submitted && !userName.valid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field>
+        <input  matInput placeholder="Enter your name" [formControl]="userName" required>
+        <mat-error *ngIf="f.submitted && !userName.valid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput placeholder="Enter your name" [formControl]="userName" required>
+        <mat-error *ngIf="f.submitted && !userName.valid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput placeholder="Enter your name" [formControl]="userName" required>
+        <mat-error *ngIf="f.submitted && !userName.valid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field> -->
+<!-- <mat-form-field>
         <label for="lastName">Last Name</label>
         <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" />
       </mat-form-field>
@@ -24,8 +29,45 @@
       <mat-form-field>
         <label for="password">Password</label>
         <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" />
-      </mat-form-field>
-      <button mat-button color="primary">Register</button>
+      </mat-form-field> -->
+
+
+<!--      <button mat-button color="primary">Register</button>
+    </form>
+  </mat-card>
+</div> -->
+
+
+
+<div class="container">
+  <mat-card>
+    <mat-card-title>Register</mat-card-title>
+    <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required />
+        <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" required />
+        <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">Register</button>
+        <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+      </div>
+      <span class="form-subnail">all fields are required</span>
     </form>
   </mat-card>
 </div>

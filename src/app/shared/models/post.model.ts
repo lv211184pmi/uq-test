@@ -5,4 +5,6 @@ export class Post {
   comments: string[];
   id: string;
   key?: string;
+  author?: string;
+  postDate?: any; 
 }

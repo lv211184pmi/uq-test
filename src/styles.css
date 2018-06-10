@@ -3,6 +3,6 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 body {
-  width:60%;
-  margin-left: 20%;
+  margin: 0;
+  padding: 0;
 }

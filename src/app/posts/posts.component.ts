@@ -62,7 +62,7 @@ export class PostsComponent implements OnInit {
       comments: [],
       id: this._getId(),
       author: this.currentUser.firstName,
-      postDate: new Date()
+      postDate: Date.now()
     });
     postTitle.value = '';
     postContent.value = '';
@@ -117,6 +117,6 @@ export class PostsComponent implements OnInit {
   }
 
   private _getDescription(text) {
-    return text.substring(0, 20) + ' ...';
+    return text.substring(0, 100) + ' ...';
   }
 }

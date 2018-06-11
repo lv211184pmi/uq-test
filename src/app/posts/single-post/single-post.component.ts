@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 import {
   AngularFirestore,
@@ -15,31 +17,40 @@ import { Post } from '../../shared/models/post.model';
   styleUrls: ['./single-post.component.css']
 })
 export class SinglePostComponent implements OnInit, OnDestroy {
-  postsCollection: AngularFirestoreCollection<Post>;
-  singlePostDoc: AngularFirestoreDocument<Post>;
+  singleCommentDoc: AngularFirestoreDocument<Post>;
+  commentsObj$: Observable<Post>;
 
   comments: string[];
   singlePost: any;
+  currentUser: any;
 
   constructor(
     private route: ActivatedRoute,
-    private db: AngularFirestore
-  ) { }
+    private db: AngularFirestore) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.singlePost = JSON.parse(localStorage.getItem('singlePost'));
+    this.getComments();
+  }
 
   ngOnInit() {
-    this.singlePost = JSON.parse(localStorage.getItem('singlePost'));
+    this.getComments();
   }
 
   addComment(comment) {
     const path = `posts/${this.singlePost.key}`;
-    this.singlePostDoc = this.db.doc(path);
+    this.singleCommentDoc = this.db.doc(path);
     this.singlePost.comments.push(comment.value);
-    this.singlePostDoc.update({comments: this.singlePost.comments});
+    this.singleCommentDoc.update({ comments: this.singlePost.comments });
     comment.value = '';
   }
 
-  refreshComments() {}
-
+  getComments() {
+    const pathComment = `posts/${this.singlePost.key}`;
+    this.singleCommentDoc = this.db.doc(pathComment);
+    this.singleCommentDoc.valueChanges().subscribe(res => {
+      this.currentUser.comments = res.comments});  
+  }
+  
   ngOnDestroy() {
     // clean LC
     localStorage.removeItem('singlePost');

@@ -1,47 +1,50 @@
-<mat-toolbar>
-  <div class="toolbar-content">
-    <h4>
-      {{currentUser.firstName}}
-    </h4>
-    <a [routerLink]="['/login']" class="btn btn-link">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light row">
+  <div class="col-6 header-row">
+    <div>
+      <a class="navbar-brand" href="#">Hello, {{currentUser.firstName}}!</a>
+    </div>
+    <div>
+      <a [routerLink]="['/login']" class="btn btn-info">Logout</a>
+    </div>
   </div>
-</mat-toolbar>
-<div class="container">
-  <mat-card>
-    <mat-card-title>Add new post</mat-card-title>
-    <mat-card-subtitle>
-      <mat-form-field>
-        <input matInput placeholder="Enter your post title.." #postTitle>
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Whrite your post here.." #postContent></textarea>
-      </mat-form-field>
-      <div *ngIf="editMode else addBlock" class="actions">
-        <button mat-button color="primary" (click)="updatePost(postTitle, postContent)">Save</button>
-        <button mat-button color="accent" (click)="cancelUpdatePost(postTitle, postContent)">Cancel</button>
-      </div>
-      <ng-template #addBlock>
-        <div class="actions">
-          <button mat-button color="primary" (click)="addPost(postTitle, postContent)">Add Post</button>
+</nav>
+<div class="row">
+  <div class="posts-container col-8">
+    <div class="cardius">
+      <div class="postform">
+        <h2>Add new post</h2>
+        <div class="fields-wrapper">
+          <div class="form-fields col-10">
+            <input matInput placeholder="Enter your post title.." #postTitle>
+            <textarea matInput placeholder="Whrite your post here.." #postContent></textarea>
+          </div>
         </div>
-      </ng-template>
-    </mat-card-subtitle>
-  </mat-card>
-  <mat-card *ngFor="let post of postsList$ | async" role="listitem" style="margin-top: 10px;">
-    <mat-card-title>{{post.title}}</mat-card-title>
-    <mat-card-content>
-      <p>
-          {{post.description}}
-      </p>
-      <div class="post-credentials">
-        <p>author: {{post.author}}</p>
-        <p>date: {{post.postDate | date}}</p>
+        <div *ngIf="editMode else addBlock" class="actions">
+          <button class="btn btn-success" (click)="updatePost(postTitle, postContent)">Save</button>
+          <button class="btn btn-danger" (click)="cancelUpdatePost(postTitle, postContent)">Cancel</button>
+        </div>
+        <ng-template #addBlock>
+          <div class="actions">
+            <button class="btn btn-primary" (click)="addPost(postTitle, postContent)">Add Post</button>
+          </div>
+        </ng-template>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="primary" (click)="setCurrentPost(post)" [routerLink]="[post['id']]">See more...</button>
-      <button mat-button color="danger" (click)="deletePost(post)">Delete</button>
-      <button mat-button color="primary" (click)="editPost(post, postTitle, postContent)">Edit</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+      <div class="card post-card" *ngFor="let post of postsList$ | async" role="listitem">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">{{post.description}}</p>
+          <div class="post-credentials">
+            <div class="post-sign">
+              <p>author: {{post.author}}</p>
+              <p>date: {{post.postDate | date}}</p>
+            </div>
+          </div>
+          <div class="controls col-4">
+            <button class="btn btn-outline-success" (click)="setCurrentPost(post)" [routerLink]="[post['id']]">See more...</button>
+            <button class="btn btn-outline-danger" (click)="deletePost(post)">Delete</button>
+            <button class="btn btn-outline-primary" (click)="editPost(post, postTitle, postContent)">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

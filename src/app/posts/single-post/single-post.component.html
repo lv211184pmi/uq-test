@@ -1,19 +1,33 @@
-<p>
-  {{singlePost['title']}}
-</p>
-<p>
-    {{singlePost['content']}}
-</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light row">
+  <div class="col-6 header-row">
+    <div>
+      <a class="navbar-brand" href="#">Hello, {{currentUser.firstName}}!</a>
+    </div>
+    <div>
+      <a [routerLink]="['/login']" class="btn btn-info">Logout</a>
+    </div>
+  </div>
+</nav>
+<div class="row">
+  <div class="card col-8">
+    <div class="card-body">
+      <h5 class="card-title">{{singlePost['title']}}</h5>
+      <div class="post-content">
+        <p>
+          {{singlePost['content']}}
+        </p>
+      </div>
 
-<div>
-  <mat-form-field>
-    <textarea matInput placeholder="Whrite your post here.." #comment></textarea>
-  </mat-form-field>
-  <button mat-button color="primary" (click)="addComment(comment)">Save</button> 
+      <div class="input-group">
+        <textarea class="form-control" placeholder="Whrite your comment here.." #comment></textarea>
+        <div class="input-group-prepend">
+          <button class="btn btn-light area-button" (click)="addComment(comment)">Send</button>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let comment of currentUser.comments">
+      <p> Your comment: {{comment}}</p>
+    </div>
+    <a [routerLink]="['/posts']" class="btn btn-link">Back</a>
+  </div>
 </div>
-<div>
-  <ul>
-    <li></li>
-  </ul>
-</div>
-<a [routerLink]="['/posts']" class="btn btn-link">Back</a>
